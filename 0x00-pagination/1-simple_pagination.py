@@ -6,7 +6,6 @@ from typing import List
 from typing import Tuple
 
 
-
 def index_range(self, page: int, page_size: int) -> Tuple:
     """Create and return a tuple of indexes"""
     start = (page - 1) * page_size
