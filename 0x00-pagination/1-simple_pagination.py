@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""Return a list of entries in dataset given page and page_size"""
 import csv
 import math
 from typing import List
