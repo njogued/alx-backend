@@ -34,13 +34,10 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Get the list of entries of the appropriately paginated dataset"""
         try:
-            entries = []
             assert (page > 0 or page_size > 0)
             assert isinstance(page, int)
             assert isinstance(page_size, int)
             indexes = index_range(page, page_size)
-            self.dataset()
-            entries.append(self.__dataset[indexes[0]:indexes[1]])
-            return entries
+            return self.dataset()[indexes[0]:indexes[1]]
         except Exception:
             return []
