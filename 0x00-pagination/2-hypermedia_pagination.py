@@ -2,8 +2,7 @@
 """Return a list of entries in dataset given page and page_size"""
 import csv
 import math
-from typing import List
-from typing import Tuple
+from typing import List, Tuple, Dict
 
 
 def index_range(page: int, page_size: int) -> Tuple:
@@ -43,3 +42,21 @@ class Server:
             return self.dataset()[indexes[0]:indexes[1]]
         except Exception:
             return []
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+        """Returns a dictionary of several k-v pairs"""
+        data = self.get_page(page, page_size)
+        if len(self.dataset()) % page_size == 0:
+            total_pages = len(self.dataset()) // page_size
+        else:
+            total_pages = len(self.dataset()) // page_size + 1
+        next_page = None if (page + 1) > total_pages else page + 1
+        prev_page = None if page - 1 < 0 else page - 1
+        page_info = {}
+        page_info['page_size'] = page_size
+        page_info['page'] = page
+        page_info['data'] = data
+        page_info['next_page'] = next_page
+        page_info['prev_page'] = prev_page
+        page_info['total_pages'] = total_pages
+        return page_info
