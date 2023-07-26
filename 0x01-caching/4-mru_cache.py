@@ -4,7 +4,7 @@ from collections import deque
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class LRUCache(BaseCaching):
+class MRUCache(BaseCaching):
     """A LIFOCache class to implement caching algo"""
     def __init__(self):
         """Initialize the LIFOCache using super class"""
@@ -18,7 +18,7 @@ class LRUCache(BaseCaching):
                 self.queue.append(key)
                 self.cache_data[key] = item
             else:
-                recent = self.queue.popleft()
+                recent = self.queue.pop()
                 del self.cache_data[recent]
                 self.queue.append(key)
                 self.cache_data[key] = item
