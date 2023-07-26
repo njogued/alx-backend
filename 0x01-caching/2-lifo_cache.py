@@ -4,7 +4,7 @@ from collections import deque
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class FIFOCache(BaseCaching):
+class LIFOCache(BaseCaching):
     """Class FIFOCache that inherits from BaseCaching"""
     def __init__(self):
         """Initializing the FIFOclass"""
@@ -14,15 +14,18 @@ class FIFOCache(BaseCaching):
     def put(self, key, item):
         """Assign the value(item) to the key"""
         if key and item and key not in self.cache_data.keys():
-            self.queue.append(key)
             if len(self.cache_data) < self.MAX_ITEMS:
                 self.cache_data[key] = item
+                self.queue.append(key)
             else:
-                oldest = self.queue.popleft()
-                del self.cache_data[oldest]
+                newest = self.queue.pop()
+                del self.cache_data[newest]
+                self.queue.append(key)
                 self.cache_data[key] = item
-                print(f"DISCARD: {oldest}")
+                print(f"DISCARD: {newest}")
         elif key and item and key in self.cache_data.keys():
+            self.queue.remove(key)
+            self.queue.append(key)
             self.cache_data[key] = item
         else:
             pass
