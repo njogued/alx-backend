@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Basic Flask app to render a page"""
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
@@ -14,6 +14,12 @@ class Config:
 app = Flask(__name__)
 app.config.from_object(Config)
 babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+    """Function to set the local language"""
+    return request.accept_languages.best_match(["en", "fr"])
 
 
 @app.route('/')
