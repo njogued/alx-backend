@@ -25,7 +25,7 @@ def get_locale():
 @app.route('/', strict_slashes=False)
 def index_fn():
     """Method to render the first template"""
-    return render_template('0-index.html')
+    return render_template('3-index.html')
 
 
 if __name__ == "__main__":
