@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, g
 from flask_babel import Babel
 from pytz import timezone
 from pytz import exceptions
+from datetime import datetime
 
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
@@ -78,12 +79,14 @@ def before_request():
         g.user = get_user(user_id)
     else:
         g.user = None
+    curr_time = datetime.now(tz=get_timezone())
+    g.time = curr_time.strftime("%b %d, %Y %I:%M:%S %p")
 
 
 @app.route('/', strict_slashes=False)
 def index_fn():
     """Method to render the first template"""
-    return render_template('7-index.html')
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
