@@ -1,5 +1,6 @@
 #!/usr/bin/yarn dev
 import { createClient } from "redis";
+import { promisify } from "util";
 
 const client = createClient();
 
@@ -14,15 +15,11 @@ client.on("connect", () => {
 function setNewSchool(schoolName, value) {
   client.SET(schoolName, value, print);
 }
-function displaySchoolValue(schoolName) {
-  client.get(schoolName, (error, val) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(val);
-    }
-  });
+const displaySchoolValue = async (schoolName) => {
+  console.log(await promisify(client.GET).bind(client)(schoolName));
+};
+async function main() {
+  await displaySchoolValue("Holberton");
+  setNewSchool("HolbertonSanFrancisco", "100");
+  await displaySchoolValue("HolbertonSanFrancisco");
 }
-displaySchoolValue("Holberton");
-setNewSchool("HolbertonSanFrancisco", "100");
-displaySchoolValue("HolbertonSanFrancisco");
